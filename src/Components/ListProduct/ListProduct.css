@@ -1,0 +1,136 @@
+/* Import Poppins font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+/* General Styles */
+.list-product {
+  margin-left: 240px; /* offset for sidebar */
+  margin-top: 80px;  /* offset for navbar */
+  padding: 24px;
+  font-family: 'Poppins', sans-serif;
+  color: #6b7280; /* light grey font */
+  background: #ffffff;
+  min-height: calc(100vh - 80px);
+}
+
+/* Page Title */
+.list-product h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #111827; /* dark text for title */
+}
+
+/* Table Header */
+.listproduct-format-main {
+  display: grid;
+  grid-template-columns: 220px 200px 1fr 1fr 1fr 100px; /* images, title, old price, new price, category, remove */
+  padding: 12px 16px;
+  font-weight: 600;
+  border-bottom: 2px solid #e5e7eb;
+  margin-bottom: 12px;
+  color: #6b7280;
+}
+
+/* Table Rows */
+.listproduct-item {
+  display: grid;
+  grid-template-columns: 220px 200px 1fr 1fr 1fr 100px; /* match header */
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.listproduct-item:hover {
+  background: #f9fafb;
+  transform: translateY(-1px);
+}
+
+/* Images container */
+.listproduct-images {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap; /* wrap multiple images */
+  max-width: 200px; /* restrict width */
+}
+
+.listproduct-images img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Product Title */
+.listproduct-title {
+  font-weight: 500;
+  color: #374151;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Prices */
+.listproduct-price-old {
+  text-decoration: line-through;
+  color: #9ca3af; /* muted grey */
+}
+
+.listproduct-price-new {
+  font-weight: 600;
+  color: #2563eb; /* electric blue */
+}
+
+/* Category */
+.listproduct-category {
+  font-weight: 500;
+  color: #6b7280;
+}
+
+/* Remove Button */
+.listproduct-remove-btn {
+  padding: 6px 10px;
+  background: #ef4040;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.listproduct-remove-btn:hover {
+  background: #b91c1c;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .listproduct-format-main,
+  .listproduct-item {
+    grid-template-columns: 150px 150px 1fr 1fr 1fr 80px;
+  }
+
+  .listproduct-images {
+    max-width: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .list-product {
+    margin-left: 0;
+    margin-top: 70px;
+    padding: 16px;
+  }
+
+  .listproduct-format-main,
+  .listproduct-item {
+    grid-template-columns: 100px 120px 1fr 1fr 1fr 60px;
+    font-size: 12px;
+  }
+
+  .listproduct-images img {
+    width: 40px;
+    height: 40px;
+  }
+}

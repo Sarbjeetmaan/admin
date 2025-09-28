@@ -1,0 +1,27 @@
+/* Admin container */
+.admin {
+  display: flex;
+  margin-top: 60px; /* offset below fixed navbar */
+  min-height: calc(100vh - 60px); /* take full height minus navbar */
+  background-color: #f9fafb; /* light background */
+}
+
+/* Main area where Routes render */
+.admin > :not(.sidebar) {
+  flex: 1;
+  margin-left: 240px; /* push content beside sidebar */
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Responsive: collapse sidebar on smaller screens */
+@media (max-width: 768px) {
+  .admin {
+    flex-direction: column;
+  }
+
+  .admin > :not(.sidebar) {
+    margin-left: 0; /* content takes full width */
+    padding: 16px;
+  }
+}
