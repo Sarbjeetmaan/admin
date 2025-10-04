@@ -8,16 +8,16 @@ const Sidebar = () => {
   const location = useLocation();
 
   return (
-    <div className='sidebar'>
-      <Link to='/admin/addproduct' style={{ textDecoration: 'none' }}>
-        <div className={`sidebar-item ${location.pathname === '/admin/addproduct' ? 'active' : ''}`}>
+    <div className="sidebar">
+      <Link to="addproduct" style={{ textDecoration: 'none' }}>
+        <div className={`sidebar-item ${location.pathname.endsWith('addproduct') ? 'active' : ''}`}>
           <FaPlusCircle className="sidebar-icon" />
           <p>Add Product</p>
         </div>
       </Link>
 
-      <Link to='/admin/listproduct' style={{ textDecoration: 'none' }}>
-        <div className={`sidebar-item ${location.pathname === '/admin/listproduct' ? 'active' : ''}`}>
+      <Link to="listproduct" style={{ textDecoration: 'none' }}>
+        <div className={`sidebar-item ${location.pathname.endsWith('listproduct') ? 'active' : ''}`}>
           <FaListAlt className="sidebar-icon" />
           <p>Product List</p>
         </div>
