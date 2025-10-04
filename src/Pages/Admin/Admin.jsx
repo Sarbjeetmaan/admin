@@ -1,23 +1,24 @@
+// src/Pages/Admin/Admin.jsx
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import './Admin.css';
 import Sidebar from '../../Components/Sidebar/Sidebar';
-import Navbar from '../../Components/Navbar/Navbar';
 import AddProduct from '../../Components/AddProduct/AddProduct';
 import Listproduct from '../../Components/ListProduct/Listproduct';
+import Navbar from '../../Components/Navbar/Navbar';
 import AdminGuard from '../../Guards/AdminGuard';
-import './Admin.css';
 
 const Admin = () => {
   return (
     <AdminGuard>
-      <Navbar />
+      <Navbar /> {/* Navbar visible */}
       <div className="admin">
-        <Sidebar />
+        <Sidebar /> {/* Sidebar fixed */}
         <div className="admin-content">
           <Routes>
             <Route path="addproduct" element={<AddProduct />} />
             <Route path="listproduct" element={<Listproduct />} />
-            <Route path="" element={<Navigate to="listproduct" replace />} />
+            <Route path="" element={<Navigate to="listproduct" replace />} /> {/* default route */}
           </Routes>
         </div>
       </div>
@@ -25,4 +26,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default Admin;    
