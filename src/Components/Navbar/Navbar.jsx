@@ -14,7 +14,7 @@ const Navbar = () => {
 
   return (
     <div className="navbar">
-      <div className="nav-logo">Admin Panel</div>
+      <div className="nav-logo">ELOC</div>
       <div className="nav-profile">
         <FaUserCircle className="profile-icon" />
         <div className="dropdown">
