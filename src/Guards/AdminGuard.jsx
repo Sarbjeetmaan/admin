@@ -1,6 +1,6 @@
 // src/Guards/AdminGuard.jsx
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AdminGuard = ({ children }) => {
   const navigate = useNavigate();
@@ -9,23 +9,36 @@ const AdminGuard = ({ children }) => {
   useEffect(() => {
     const checkAdmin = async () => {
       try {
-        const res = await fetch('https://backend-91e3.onrender.com/verifyAdmin', {
-          method: 'GET',
-          credentials: 'include', // important to send cookies
+        const token = localStorage.getItem("token"); // JWT from login
+        if (!token) {
+          navigate("/"); // redirect non-logged-in users
+          return;
+        }
+
+        const res = await fetch("https://backend-91e3.onrender.com/verifyAdmin", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: "include", // if cookies used
         });
+
         const data = await res.json();
+
         if (!data.isAdmin) {
-          window.location.href = 'https://project-3v49.vercel.app'; // redirect to user frontend
+          alert("Access denied. Admins only!");
+          navigate("/"); // redirect non-admins
         } else {
-          setLoading(false);
+          setLoading(false); // admin verified
         }
       } catch (err) {
-        window.location.href = 'https://project-3v49.vercel.app';
+        console.error(err);
+        navigate("/"); // redirect on error
       }
     };
 
     checkAdmin();
-  }, []);
+  }, [navigate]);
 
   if (loading) return <p>Loading...</p>;
 
