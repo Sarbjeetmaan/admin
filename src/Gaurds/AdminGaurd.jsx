@@ -1,16 +1,31 @@
 // src/Guards/AdminGuard.jsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const AdminGuard = ({ children }) => {
-  useEffect(() => {
-    const role = localStorage.getItem('role');
-    const token = localStorage.getItem('token');
+  const [loading, setLoading] = useState(true);
+  const [authorized, setAuthorized] = useState(false);
 
-    if (!token || role !== 'admin') {
-      alert('Access denied. Admins only!');
-      window.location.href = 'https://project-3v49.vercel.app'; // ⬅️ user frontend
-    }
+  useEffect(() => {
+    // Verify admin via backend
+    fetch('https://backend-91e3.onrender.com/admin/dashboard', {
+      credentials: 'include', // send cookie
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Not authorized');
+        return res.json();
+      })
+      .then(() => {
+        setAuthorized(true);
+      })
+      .catch(() => {
+        alert('Access denied. Admins only!');
+        window.location.href = 'https://project-3v49.vercel.app'; // redirect to user frontend
+      })
+      .finally(() => setLoading(false));
   }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (!authorized) return null;
 
   return <>{children}</>;
 };

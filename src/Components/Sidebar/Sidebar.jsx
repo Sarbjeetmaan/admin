@@ -1,28 +1,20 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { FaPlusCircle, FaListAlt } from 'react-icons/fa';
 import './Sidebar.css';
+import { Link } from 'react-router-dom';
+import { FaPlusCircle, FaListAlt } from 'react-icons/fa';
 
 export const Sidebar = () => {
-  const location = useLocation();
-
   return (
     <div className="sidebar">
-      <Link
-        to="/admin/addproduct"
-        style={{ textDecoration: 'none' }}
-      >
-        <div className={`sidebar-item ${location.pathname === '/admin/addproduct' ? 'active' : ''}`}>
+      <Link to="/admin/addproduct" style={{ textDecoration: 'none' }}>
+        <div className="sidebar-item">
           <FaPlusCircle className="sidebar-icon" />
           <p>Add Product</p>
         </div>
       </Link>
 
-      <Link
-        to="/admin/listproduct"
-        style={{ textDecoration: 'none' }}
-      >
-        <div className={`sidebar-item ${location.pathname === '/admin/listproduct' ? 'active' : ''}`}>
+      <Link to="/admin/listproduct" style={{ textDecoration: 'none' }}>
+        <div className="sidebar-item">
           <FaListAlt className="sidebar-icon" />
           <p>Product List</p>
         </div>

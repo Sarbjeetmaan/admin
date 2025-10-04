@@ -1,11 +1,12 @@
+// src/Pages/Admin/Admin.jsx
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './Admin.css';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import AddProduct from '../../Components/AddProduct/AddProduct';
-import Listproduct from '../../Components/ListProduct/Listproduct';
+import ListProduct from '../../Components/ListProduct/Listproduct';
 import Navbar from '../../Components/Navbar/Navbar';
-import AdminGuard from '../../Gaurds/AdminGaurd';
+import AdminGuard from '../../Guards/AdminGuard';
 
 const Admin = () => {
   return (
@@ -16,8 +17,8 @@ const Admin = () => {
         <div className="admin-content">
           <Routes>
             <Route path="addproduct" element={<AddProduct />} />
-            <Route path="listproduct" element={<Listproduct />} />
-            <Route path="" element={<Navigate to="listproduct" replace />} /> {/* default route */}
+            <Route path="listproduct" element={<ListProduct />} />
+            <Route path="" element={<Navigate to="listproduct" replace />} /> {/* default */}
           </Routes>
         </div>
       </div>
