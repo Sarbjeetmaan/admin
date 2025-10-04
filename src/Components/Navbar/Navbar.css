@@ -7,11 +7,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px; /* only horizontal padding */
+  padding: 0 20px; /* horizontal padding */
   background-color: #ffffff;
   z-index: 1000;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  box-sizing: border-box; /* makes padding count inside height */
+  box-sizing: border-box;
 }
 
 .nav-logo .logo-text {
@@ -22,10 +22,12 @@
 }
 
 .nav-profile {
+  position: relative; /* needed for dropdown */
   display: flex;
-  align-items: center; /* vertically centers the icon */
+  align-items: center;
   justify-content: flex-end;
-  height: 100%; /* makes sure icon stays inside navbar */
+  height: 100%;
+  cursor: pointer;
 }
 
 .nav-profile .profile-icon {
@@ -37,4 +39,68 @@
 
 .nav-profile .profile-icon:hover {
   color: #fbbf24; /* amber on hover */
+}
+
+/* Dropdown */
+.nav-profile .dropdown {
+  display: none;
+  position: absolute;
+  top: 60px; /* below navbar */
+  right: 0;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  padding: 10px 0;
+  min-width: 160px;
+  z-index: 999;
+  text-align: left;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Show dropdown on hover */
+.nav-profile:hover .dropdown {
+  display: block;
+}
+
+/* Dropdown text */
+.nav-profile .dropdown p {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 8px 16px;
+  margin: 0;
+  color: #2563eb;
+}
+
+/* Dropdown links & buttons */
+.nav-profile .dropdown a,
+.nav-profile .dropdown button {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  font-size: 14px;
+  text-align: left;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-profile .dropdown a:hover,
+.nav-profile .dropdown button:hover {
+  background: #f3f4f6; /* light gray */
+  color: #2563eb; /* blue */
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

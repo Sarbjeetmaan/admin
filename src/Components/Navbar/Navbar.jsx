@@ -10,7 +10,7 @@ export const Navbar = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const savedRole = localStorage.getItem('role'); // ✅ check if user is admin or user
+    const savedRole = localStorage.getItem('role');
     if (token) {
       setIsLoggedIn(true);
       setRole(savedRole);
@@ -21,7 +21,7 @@ export const Navbar = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     setIsLoggedIn(false);
-    navigate('/login'); // redirect to login after logout
+    navigate('/'); // ✅ back to user homepage
   };
 
   return (
@@ -36,7 +36,14 @@ export const Navbar = () => {
             <FaUserCircle className="profile-icon" />
             <div className="dropdown">
               <p>{role === 'admin' ? 'Admin' : 'User'} Panel</p>
-              {role === 'admin' && <Link to="/admin">Go to Admin</Link>}
+
+              {/* ✅ Admins go to external admin site */}
+              {role === 'admin' && (
+                <a href="https://admin-68ww.vercel.app" target="_blank" rel="noopener noreferrer">
+                  Go to Admin
+                </a>
+              )}
+
               <button onClick={handleLogout}>Logout</button>
             </div>
           </>

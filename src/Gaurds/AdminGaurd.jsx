@@ -1,71 +1,18 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// src/Guards/AdminGuard.jsx
+import React, { useEffect } from 'react';
 
-const API_BASE = 'https://backend-91e3.onrender.com'; // same backend
+const AdminGuard = ({ children }) => {
+  useEffect(() => {
+    const role = localStorage.getItem('role');
+    const token = localStorage.getItem('token');
 
-const AdminLogin = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    try {
-      const res = await fetch(`${API_BASE}/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok || data.role !== 'admin') {
-        throw new Error('Access denied. Admins only!');
-      }
-
-      // Save token and role
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('role', data.role);
-
-      // Navigate to admin dashboard
-      navigate('/dashboard'); 
-    } catch (err) {
-      setError(err.message || 'Login failed');
-    } finally {
-      setLoading(false);
+    if (!token || role !== 'admin') {
+      alert('Access denied. Admins only!');
+      window.location.href = 'https://project-3v49.vercel.app'; // ⬅️ user frontend
     }
-  };
+  }, []);
 
-  return (
-    <div className="admin-login-container">
-      <h2>Admin Login</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Admin Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
-      </form>
-    </div>
-  );
+  return <>{children}</>;
 };
 
-export default AdminLogin;
+export default AdminGuard;

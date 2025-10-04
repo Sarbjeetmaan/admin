@@ -1,20 +1,25 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import './Admin.css';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import AddProduct from '../../Components/AddProduct/AddProduct';
 import Listproduct from '../../Components/ListProduct/Listproduct';
-import AdminGuard from '../../Gaurds/AdminGaurd'; // 👈 import your guard
+import Navbar from '../../Components/Navbar/Navbar';
+import AdminGuard from '../../Gaurds/AdminGaurd';
 
-export const Admin = () => {
+const Admin = () => {
   return (
-    <AdminGuard> {/* 👈 Wrap everything inside AdminGuard */}
+    <AdminGuard>
+      <Navbar /> {/* Navbar always visible */}
       <div className="admin">
-        <Sidebar />
-        <Routes>
-          <Route path="/addproduct" element={<AddProduct />} />
-          <Route path="/listproduct" element={<Listproduct />} />
-        </Routes>
+        <Sidebar /> {/* Sidebar fixed */}
+        <div className="admin-content">
+          <Routes>
+            <Route path="addproduct" element={<AddProduct />} />
+            <Route path="listproduct" element={<Listproduct />} />
+            <Route path="" element={<Navigate to="listproduct" replace />} /> {/* default route */}
+          </Routes>
+        </div>
       </div>
     </AdminGuard>
   );
