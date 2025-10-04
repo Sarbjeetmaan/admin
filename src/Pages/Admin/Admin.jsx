@@ -4,21 +4,21 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import './Admin.css';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import AddProduct from '../../Components/AddProduct/AddProduct';
-import ListProduct from '../../Components/ListProduct/Listproduct';
+import Listproduct from '../../Components/ListProduct/Listproduct';
 import Navbar from '../../Components/Navbar/Navbar';
 import AdminGuard from '../../Guards/AdminGuard';
 
 const Admin = () => {
   return (
     <AdminGuard>
-      <Navbar /> {/* Navbar always visible */}
+      <Navbar /> {/* Navbar visible */}
       <div className="admin">
         <Sidebar /> {/* Sidebar fixed */}
         <div className="admin-content">
           <Routes>
             <Route path="addproduct" element={<AddProduct />} />
-            <Route path="listproduct" element={<ListProduct />} />
-            <Route path="" element={<Navigate to="listproduct" replace />} /> {/* default */}
+            <Route path="listproduct" element={<Listproduct />} />
+            <Route path="" element={<Navigate to="listproduct" replace />} /> {/* default route */}
           </Routes>
         </div>
       </div>

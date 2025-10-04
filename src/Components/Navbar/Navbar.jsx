@@ -1,55 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+// src/Components/Navbar/Navbar.jsx
+import React from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import './Navbar.css';
 
-export const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [role, setRole] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const savedRole = localStorage.getItem('role');
-    if (token) {
-      setIsLoggedIn(true);
-      setRole(savedRole);
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    setIsLoggedIn(false);
-    navigate('/'); // ✅ back to user homepage
+const Navbar = () => {
+  const handleLogout = async () => {
+    await fetch('https://backend-91e3.onrender.com/logout', {
+      method: 'POST',
+      credentials: 'include'
+    });
+    window.location.href = 'https://project-3v49.vercel.app';
   };
 
   return (
     <div className="navbar">
-      <div className="nav-logo">
-        <Link to="/" className="logo-text">Eloc</Link>
-      </div>
-
+      <div className="nav-logo">Admin Panel</div>
       <div className="nav-profile">
-        {isLoggedIn ? (
-          <>
-            <FaUserCircle className="profile-icon" />
-            <div className="dropdown">
-              <p>{role === 'admin' ? 'Admin' : 'User'} Panel</p>
-
-              {/* ✅ Admins go to external admin site */}
-              {role === 'admin' && (
-                <a href="https://admin-68ww.vercel.app" target="_blank" rel="noopener noreferrer">
-                  Go to Admin
-                </a>
-              )}
-
-              <button onClick={handleLogout}>Logout</button>
-            </div>
-          </>
-        ) : (
-          <Link to="/login" className="login-link">Login</Link>
-        )}
+        <FaUserCircle className="profile-icon" />
+        <div className="dropdown">
+          <button onClick={handleLogout}>Logout</button>
+        </div>
       </div>
     </div>
   );
