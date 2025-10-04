@@ -11,9 +11,9 @@ import AdminGuard from '../../Guards/AdminGuard';
 const Admin = () => {
   return (
     <AdminGuard>
-      <Navbar /> {/* Navbar visible */}
+      <Navbar /> 
       <div className="admin">
-        <Sidebar /> {/* Sidebar fixed */}
+        <Sidebar />
         <div className="admin-content">
           <Routes>
             <Route path="addproduct" element={<AddProduct />} />
