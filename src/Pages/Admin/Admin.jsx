@@ -1,10 +1,10 @@
 // src/Pages/Admin/Admin.jsx
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import './Admin.css';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import AddProduct from '../../Components/AddProduct/AddProduct';
-import Listproduct from '../../Components/ListProduct/Listproduct';
+import ListProduct from '../../Components/ListProduct/ListProduct'; // ✅ fixed import
 import Navbar from '../../Components/Navbar/Navbar';
 import AdminGuard from '../../Guards/AdminGuard';
 
@@ -17,8 +17,9 @@ const Admin = () => {
         <div className="admin-content">
           <Routes>
             <Route path="addproduct" element={<AddProduct />} />
-            <Route path="listproduct" element={<Listproduct />} />
-            <Route path="" element={<Navigate to="listproduct" replace />} /> {/* default route */}
+            <Route path="listproduct" element={<ListProduct />} />
+            {/* ✅ default route so /admin doesn’t look blank */}
+            <Route index element={<h2>Welcome to Admin Dashboard</h2>} />
           </Routes>
         </div>
       </div>
@@ -26,4 +27,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;    
+export default Admin;

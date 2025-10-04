@@ -1,40 +1,55 @@
 /* Import Poppins font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
-/* General Styles */
+/* General Layout */
 .list-product {
-  margin-left: 240px; /* offset for sidebar */
-  margin-top: 80px;  /* offset for navbar */
   padding: 24px;
   font-family: 'Poppins', sans-serif;
-  color: #6b7280; /* light grey font */
+  color: #6b7280;
   background: #ffffff;
   min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.list-product-container {
+  width: 100%;
+  max-width: 1200px; /* center content */
 }
 
 /* Page Title */
 .list-product h1 {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 600;
   margin-bottom: 24px;
-  color: #111827; /* dark text for title */
+  color: #111827;
+  text-align: center;
 }
 
 /* Table Header */
 .listproduct-format-main {
   display: grid;
-  grid-template-columns: 220px 200px 1fr 1fr 1fr 100px; /* images, title, old price, new price, category, remove */
+  grid-template-columns: 220px 200px 1fr 1fr 1fr 120px;
+  gap: 16px; /* space between columns */
   padding: 12px 16px;
   font-weight: 600;
   border-bottom: 2px solid #e5e7eb;
   margin-bottom: 12px;
   color: #6b7280;
+  background: #f3f4f6;
+  border-radius: 8px 8px 0 0;
+}
+
+.listproduct-format-main p {
+  padding-right: 8px;
 }
 
 /* Table Rows */
 .listproduct-item {
   display: grid;
-  grid-template-columns: 220px 200px 1fr 1fr 1fr 100px; /* match header */
+  grid-template-columns: 220px 200px 1fr 1fr 1fr 120px; 
+  gap: 16px; /* space between columns */
   align-items: center;
   padding: 12px 16px;
   border-bottom: 1px solid #e5e7eb;
@@ -46,12 +61,16 @@
   transform: translateY(-1px);
 }
 
-/* Images container */
+.listproduct-item p {
+  padding-right: 8px;
+}
+
+/* Images */
 .listproduct-images {
   display: flex;
   gap: 8px;
-  flex-wrap: wrap; /* wrap multiple images */
-  max-width: 200px; /* restrict width */
+  flex-wrap: wrap;
+  max-width: 200px;
 }
 
 .listproduct-images img {
@@ -74,12 +93,12 @@
 /* Prices */
 .listproduct-price-old {
   text-decoration: line-through;
-  color: #9ca3af; /* muted grey */
+  color: #9ca3af;
 }
 
 .listproduct-price-new {
   font-weight: 600;
-  color: #2563eb; /* electric blue */
+  color: #2563eb;
 }
 
 /* Category */
@@ -98,6 +117,7 @@
   font-size: 14px;
   cursor: pointer;
   transition: background 0.3s ease;
+  justify-self: center; /* center button in its column */
 }
 
 .listproduct-remove-btn:hover {
@@ -108,7 +128,7 @@
 @media (max-width: 1024px) {
   .listproduct-format-main,
   .listproduct-item {
-    grid-template-columns: 150px 150px 1fr 1fr 1fr 80px;
+    grid-template-columns: 150px 150px 1fr 1fr 1fr 100px;
   }
 
   .listproduct-images {
@@ -118,14 +138,12 @@
 
 @media (max-width: 768px) {
   .list-product {
-    margin-left: 0;
-    margin-top: 70px;
     padding: 16px;
   }
 
   .listproduct-format-main,
   .listproduct-item {
-    grid-template-columns: 100px 120px 1fr 1fr 1fr 60px;
+    grid-template-columns: 100px 120px 1fr 1fr 1fr 80px;
     font-size: 12px;
   }
 
