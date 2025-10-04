@@ -9,7 +9,7 @@ const App = () => {
   return (
     <>
       <Navbar />
-       <Sidebar/>
+       
       <Routes>
       
         <Route path="/admin/*" element={<Admin />} />
