@@ -18,7 +18,7 @@ const Admin = () => {
           <Routes>
             <Route path="addproduct" element={<AddProduct />} />
             <Route path="listproduct" element={<ListProduct />} />
-            {/* ✅ default route so /admin doesn’t look blank */}
+          
             <Route index element={<h2>Welcome to Admin Dashboard</h2>} />
           </Routes>
         </div>
