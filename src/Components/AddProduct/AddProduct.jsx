@@ -3,7 +3,7 @@ import { FaUpload } from 'react-icons/fa';
 import './AddProduct.css';
 import { API_ENDPOINTS } from '../../api/api'; 
 
-export const AddProduct = () => {
+const AddProduct = () => {
   const [productDetails, setProductDetails] = useState({
     name: "",
     images: [],
@@ -12,6 +12,7 @@ export const AddProduct = () => {
     old_price: ""
   });
   const [previewImages, setPreviewImages] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // Handle multiple file selection
   const handleImageChange = (e) => {
@@ -22,20 +23,27 @@ export const AddProduct = () => {
 
   // Upload images and add product
   const addProduct = async () => {
+    if (!productDetails.name || !productDetails.images.length || !productDetails.new_price || !productDetails.old_price) {
+      alert("❌ Please fill all fields and select at least one image");
+      return;
+    }
+
+    setLoading(true);
     try {
       const formData = new FormData();
       productDetails.images.forEach(img => formData.append("product", img));
 
-      // ✅ Upload images
-      const uploadRes = await fetch(API_ENDPOINTS.UPLOAD, {
-        method: "POST",
-        body: formData
-      });
+      // Upload images
+      const uploadRes = await fetch(API_ENDPOINTS.UPLOAD, { method: "POST", body: formData });
       const data = await uploadRes.json();
 
       if (!data.success) throw new Error("Image upload failed");
 
-      // ✅ Add product with uploaded URLs
+      // Convert prices to numbers
+      const newPrice = Number(productDetails.new_price);
+      const oldPrice = Number(productDetails.old_price);
+
+      // Add product
       const productRes = await fetch(API_ENDPOINTS.ADD_PRODUCT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -43,26 +51,25 @@ export const AddProduct = () => {
           name: productDetails.name,
           images: data.image_urls,
           category: productDetails.category,
-          new_price: productDetails.new_price,
-          old_price: productDetails.old_price
+          new_price: newPrice,
+          old_price: oldPrice
         })
       });
 
       const productData = await productRes.json();
-      console.log("Product Added:", productData);
-
       if (productData.success) {
         alert("✅ Product added successfully!");
-        // Reset form
         setProductDetails({ name: "", images: [], category: "airpods", new_price: "", old_price: "" });
         setPreviewImages([]);
       } else {
-        alert("❌ Failed to add product");
+        alert("❌ Failed to add product: " + productData.message);
       }
 
     } catch (err) {
       console.error(err);
-      alert("❌ Failed to add product");
+      alert("❌ Failed to add product: " + err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,7 +88,7 @@ export const AddProduct = () => {
           <div className="addproduct-itemfield">
             <p>Price</p>
             <input
-              type="text"
+              type="number"
               value={productDetails.old_price}
               onChange={e => setProductDetails(prev => ({ ...prev, old_price: e.target.value }))}
               placeholder="Type here"
@@ -91,7 +98,7 @@ export const AddProduct = () => {
           <div className="addproduct-itemfield">
             <p>Offer Price</p>
             <input
-              type="text"
+              type="number"
               value={productDetails.new_price}
               onChange={e => setProductDetails(prev => ({ ...prev, new_price: e.target.value }))}
               placeholder="Type here"
@@ -136,7 +143,6 @@ export const AddProduct = () => {
           />
         </div>
 
-        {/* Multiple image previews */}
         {previewImages.length > 0 && (
           <div className="image-preview-multiple">
             {previewImages.map((src, idx) => (
@@ -147,7 +153,9 @@ export const AddProduct = () => {
           </div>
         )}
 
-        <button className="addproduct-btn" onClick={addProduct}>Add Product</button>
+        <button className="addproduct-btn" onClick={addProduct} disabled={loading}>
+          {loading ? "Adding..." : "Add Product"}
+        </button>
       </div>
     </div>
   );
