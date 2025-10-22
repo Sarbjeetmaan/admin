@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './Components/Navbar/Navbar';
 import Admin from './Pages/Admin/Admin';
 import Sidebar from './Components/Sidebar/Sidebar';
 
 const App = () => {
+  const [tokenLoaded, setTokenLoaded] = useState(false);
 
-  // ✅ Capture token from URL once on app load
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
@@ -17,9 +17,14 @@ const App = () => {
       localStorage.setItem('role', role);
 
       // Clean URL so token is not visible
-      window.history.replaceState({}, document.title, "/");
+      window.history.replaceState({}, document.title, '/admin');
     }
+
+    setTokenLoaded(true);
   }, []);
+
+  // Wait until token is loaded before rendering
+  if (!tokenLoaded) return null;
 
   return (
     <>
