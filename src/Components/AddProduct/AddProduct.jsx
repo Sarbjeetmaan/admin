@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { FaUpload } from 'react-icons/fa';
-import './AddProduct.css';
-import { API_ENDPOINTS } from '../../api/api'; 
+import React, { useState } from "react";
+import { FaUpload } from "react-icons/fa";
+import "./AddProduct.css";
+import { API_ENDPOINTS } from "../../api/api";
 
 const AddProduct = () => {
   const [productDetails, setProductDetails] = useState({
@@ -9,62 +9,89 @@ const AddProduct = () => {
     images: [],
     category: "airpods",
     new_price: "",
-    old_price: ""
+    old_price: "",
   });
   const [previewImages, setPreviewImages] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Handle multiple file selection
+  // ===============================
+  // Handle multiple image selection
+  // ===============================
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setPreviewImages(files.map(file => URL.createObjectURL(file)));
-    setProductDetails(prev => ({ ...prev, images: files }));
+    setPreviewImages(files.map((file) => URL.createObjectURL(file)));
+    setProductDetails((prev) => ({ ...prev, images: files }));
   };
 
-  // Upload images and add product
+  // ===============================
+  // Add Product Function
+  // ===============================
   const addProduct = async () => {
-    if (!productDetails.name || !productDetails.images.length || !productDetails.new_price || !productDetails.old_price) {
+    if (
+      !productDetails.name ||
+      !productDetails.images.length ||
+      !productDetails.new_price ||
+      !productDetails.old_price
+    ) {
       alert("❌ Please fill all fields and select at least one image");
       return;
     }
 
     setLoading(true);
     try {
+      // ---- STEP 1: Upload Images ----
       const formData = new FormData();
-      productDetails.images.forEach(img => formData.append("product", img));
+      productDetails.images.forEach((img) => formData.append("product", img));
 
-      // Upload images
-      const uploadRes = await fetch(API_ENDPOINTS.UPLOAD, { method: "POST", body: formData });
+      const uploadRes = await fetch(API_ENDPOINTS.UPLOAD, {
+        method: "POST",
+        body: formData,
+      });
+
       const data = await uploadRes.json();
-
       if (!data.success) throw new Error("Image upload failed");
 
-      // Convert prices to numbers
-      const newPrice = Number(productDetails.new_price);
-      const oldPrice = Number(productDetails.old_price);
+      // ---- STEP 2: Get token ----
+      const token = localStorage.getItem("token");
+      console.log("Token being sent:", token);
 
-      // Add product
+      if (!token) {
+        alert("⚠️ No token found. Please log in again as admin.");
+        setLoading(false);
+        return;
+      }
+
+      // ---- STEP 3: Add Product ----
       const productRes = await fetch(API_ENDPOINTS.ADD_PRODUCT, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // ✅ send token
+        },
         body: JSON.stringify({
           name: productDetails.name,
           images: data.image_urls,
           category: productDetails.category,
-          new_price: newPrice,
-          old_price: oldPrice
-        })
+          new_price: Number(productDetails.new_price),
+          old_price: Number(productDetails.old_price),
+        }),
       });
 
       const productData = await productRes.json();
+
       if (productData.success) {
         alert("✅ Product added successfully!");
-        setProductDetails({ name: "", images: [], category: "airpods", new_price: "", old_price: "" });
+        setProductDetails({
+          name: "",
+          images: [],
+          category: "airpods",
+          new_price: "",
+          old_price: "",
+        });
         setPreviewImages([]);
       } else {
         alert("❌ Failed to add product: " + productData.message);
       }
-
     } catch (err) {
       console.error(err);
       alert("❌ Failed to add product: " + err.message);
@@ -73,6 +100,9 @@ const AddProduct = () => {
     }
   };
 
+  // ===============================
+  // Component JSX
+  // ===============================
   return (
     <div className="add-product">
       <div className="addproduct-itemfield">
@@ -80,7 +110,9 @@ const AddProduct = () => {
         <input
           type="text"
           value={productDetails.name}
-          onChange={e => setProductDetails(prev => ({ ...prev, name: e.target.value }))}
+          onChange={(e) =>
+            setProductDetails((prev) => ({ ...prev, name: e.target.value }))
+          }
           placeholder="Type here"
         />
 
@@ -90,7 +122,12 @@ const AddProduct = () => {
             <input
               type="number"
               value={productDetails.old_price}
-              onChange={e => setProductDetails(prev => ({ ...prev, old_price: e.target.value }))}
+              onChange={(e) =>
+                setProductDetails((prev) => ({
+                  ...prev,
+                  old_price: e.target.value,
+                }))
+              }
               placeholder="Type here"
             />
           </div>
@@ -100,7 +137,12 @@ const AddProduct = () => {
             <input
               type="number"
               value={productDetails.new_price}
-              onChange={e => setProductDetails(prev => ({ ...prev, new_price: e.target.value }))}
+              onChange={(e) =>
+                setProductDetails((prev) => ({
+                  ...prev,
+                  new_price: e.target.value,
+                }))
+              }
               placeholder="Type here"
             />
           </div>
@@ -110,7 +152,12 @@ const AddProduct = () => {
           <p>Category</p>
           <select
             value={productDetails.category}
-            onChange={e => setProductDetails(prev => ({ ...prev, category: e.target.value }))}
+            onChange={(e) =>
+              setProductDetails((prev) => ({
+                ...prev,
+                category: e.target.value,
+              }))
+            }
             className="add-product-selector"
           >
             <option value="airpods">AIRPODS</option>
@@ -153,7 +200,11 @@ const AddProduct = () => {
           </div>
         )}
 
-        <button className="addproduct-btn" onClick={addProduct} disabled={loading}>
+        <button
+          className="addproduct-btn"
+          onClick={addProduct}
+          disabled={loading}
+        >
           {loading ? "Adding..." : "Add Product"}
         </button>
       </div>
