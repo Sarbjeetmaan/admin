@@ -6,6 +6,8 @@ import Sidebar from '../../Components/Sidebar/Sidebar';
 import AddProduct from '../../Components/AddProduct/AddProduct';
 import ListProduct from '../../Components/ListProduct/Listproduct';
 import Navbar from '../../Components/Navbar/Navbar';
+import AdminOrders from "./AdminOrders";
+
 
 const Admin = () => {
   return (
@@ -17,6 +19,7 @@ const Admin = () => {
           <Routes>
             <Route path="addproduct" element={<AddProduct />} />
             <Route path="listproduct" element={<ListProduct />} />
+            <Route path="/orders" element={<AdminOrders />} />
             {/* ✅ default route so /admin doesn’t look blank */}
             <Route index element={<h2>Welcome to Admin Dashboard</h2>} />
           </Routes>
